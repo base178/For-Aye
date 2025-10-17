@@ -1,0 +1,103 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans Myanmar', sans-serif;
+  background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 100%);
+  color: #222;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.outer-container {
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.image-container img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 1rem;
+  display: block;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+}
+
+.main-text {
+  margin: 1.2rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.white-box {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Button styles */
+.btn {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.6rem;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Violet (start) */
+.btn-primary {
+  background: #7b5cff;
+}
+.btn-primary:hover {
+  background: #6946f4;
+}
+
+/* Green */
+.btn-success {
+  background: #4caf50;
+}
+.btn-success:hover {
+  background: #3e8e41;
+}
+
+/* Red */
+.btn-destructive {
+  background: #f44336;
+}
+.btn-destructive:hover {
+  background: #d32f2f;
+}
+
+.final-message {
+  margin-top: 1.5rem;
+}
+
+.final-text {
+  color: #ff4081;
+  font-size: 1.2rem;
+  font-weight: 600;
+}

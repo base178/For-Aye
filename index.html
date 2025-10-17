@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Title (site မျက်နှာပြင်အတွက်) -->
+  <title>For Aye</title>
+
+  <!-- အဓိက ဖောင့် -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- IMPORTANT:
+       Link preview တွေကို ဖျောက်ဖို့အတွက် og/twitter meta tags မထည့်ထားပါ။
+       အကယ်၍ ဝဘ်ဖက်စနစ်တစ်စုံက caching ကြောင့် ပြန်ပေါ့ဆိုရင် Telegram ရဲ့ webpagebot နဲ့ refresh လုပ်ပါ။
+  -->
+
+  <!-- Search engines / crawlers အချို့ကို ပုံ index မလုပ်စေချင်ရင် -->
+  <meta name="robots" content="noimageindex, max-snippet:-1, max-video-preview:-1" />
+
+  <!-- site CSS (သင့် repo ထဲက style.css ကို သုံးပါ) -->
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* (optional) နည်းနည်း local fallback ဖော်ပြထားတာ — သင့် style.css အသုံးပြုလည်း ရတယ် */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans Myanmar', sans-serif;
+      background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 100%);
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .outer-container {
+      width: 100%;
+      max-width: 500px;
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .image-container img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 1rem;
+      display: block;
+      margin: 0 auto;
+      transition: transform 0.3s ease;
+    }
+    .main-text {
+      margin: 1.2rem 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .white-box {
+      background-color: #ffffff;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .btn {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.6rem;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-primary { background: #7b5cff; }
+    .btn-primary:hover { background: #6946f4; }
+    .btn-success { background: #4caf50; }
+    .btn-success:hover { background: #3e8e41; }
+    .btn-destructive { background: #f44336; }
+    .btn-destructive:hover { background: #d32f2f; }
+    .final-message { margin-top: 1.5rem; }
+    .final-text { color: #ff4081; font-size: 1.2rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="outer-container">
+    <div class="card">
+      <div class="image-container">
+        <!-- သင်လိုချင်သလိုပဲ local image အမည်ထည့်ထားပါတယ် -->
+        <img id="main-image" src="11.jpg" alt="Romantic illustration" class="main-image" />
+      </div>
+
+      <div class="text-container">
+        <p id="main-text" class="main-text">စိတ်ထည်းရှိတဲ့အတိုင်းနှိပ်နော်</p>
+      </div>
+
+      <div class="buttons-container">
+        <button id="initial-button" class="btn btn-primary" onclick="handleInitialClick()">စလိုက်မယ်</button>
+        <button id="green-button" class="btn btn-success" onclick="handleGreenClick()" style="display: none;">အများကြီးလွမ်းတယ်</button>
+        <button id="red-button" class="btn btn-destructive" onclick="handleRedClick()" style="display: none;">နည်းနည်းလေးမလွမ်းဘူး</button>
+      </div>
+
+      <div id="final-message" class="final-message" style="display: none;">
+        <p class="final-text">အဆုံးသတ် — အဖြေတစ်ခုသာကျန်သည်။</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script files -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script>
+    // State management
+    let stage = "initial";
+    let redClickCount = 0;
+
+    // DOM elements
+    const mainImage = document.getElementById('main-image');
+    const mainText = document.getElementById('main-text');
+    const initialButton = document.getElementById('initial-button');
+    const greenButton = document.getElementById('green-button');
+    const redButton = document.getElementById('red-button');
+    const finalMessage = document.getElementById('final-message');
+
+    // Image paths
+    const images = {
+      1: '1.jpg',
+      2: '2.jpg',
+      3: '3.jpg',
+      4: '4.jpg',
+      5: '5.jpg',
+      6: '6.jpg',
+      7: '7.jpg',
+      8: '8.jpg',
+      9: '9.jpg',
+      10: '10.jpg',
+      11: '11.jpg',
+      12: '12.jpg',
+      13: '13.jpg',
+      14: '14.jpg'
+    };
+
+    // Text for each red click
+    const redClickTexts = {
+      1: "တစ်ကယ်ကြီးပေါ့",
+      2: "မှားနိပ်မိနေတာလား",
+      3: "နိပ်ရမဲ့ဟာကဘေးမှာလေ",
+      4: "မသနားဘူးလား",
+      5: "လွမ်းရဲ့သားနဲ့ ဟန်ဆောင်မနေပါနဲ့",
+      6: "နည်းနည်းတော့လွမ်းတယ်ထားလိုက်",
+      7: "ရုပ်လေးနဲ့မလိုက် ရက်စက်လိုက်တာ",
+      8: "နှိပ်လို့လွယ်တာလေးကိုပဲ နှိပ်လိုက်ပါ",
+      9: "ရအောင်နှိပ်စမ်းပါ",
+      10: "အခုတော့ button မကျန်တော့ဘူးနော်"
+    };
+
+    // Define custom red-click image order
+    const redClickImageOrder = {
+      0: 8,
+      1: 2,
+      2: 4,
+      3: 3,
+      4: 6,
+      5: 7,
+      6: 2,
+      7: 10,
+      8: 13,
+      9: 14
+    };
+
+    // Handle clicks
+    function handleInitialClick() {
+      stage = "question";
+      updateUI();
+    }
+
+    function handleGreenClick() {
+      stage = "success";
+      updateUI();
+
+      confetti({
+        particleCount: 500,
+        spread: 75,
+        origin: { y: 0.6 },
+        colors: ['#ff4081', '#ffd700', '#7b5cff', '#4caf50']
+      });
+    }
+
+    function handleRedClick() {
+      redClickCount++;
+      if (stage === "question" && redClickCount === 1) {
+        stage = "pleading";
+      }
+      updateUI();
+    }
+
+    // Button scales
+    function getRedButtonScale() {
+      const shrinkFactor = Math.max(0, 1 - redClickCount * 0.12);
+      return shrinkFactor;
+    }
+
+    function getGreenButtonScale() {
+      if (stage === "question") return 1;
+      const growFactor = 1 + redClickCount * 0.12;
+      return growFactor;
+    }
+
+    // Update UI
+    function updateUI() {
+      // Update image
+      if (stage === "initial") {
+        mainImage.src = images[redClickImageOrder[0]];
+      } else if (stage === "question") {
+        mainImage.src = images[1];
+      } else if (stage === "success") {
+        mainImage.src = images[5];
+      } else if (stage === "pleading" && redClickCount > 0) {
+        const imageNum = redClickImageOrder[Math.min(redClickCount, 9)];
+        if (imageNum) mainImage.src = images[imageNum];
+      }
+
+      // Update text
+      if (stage === "initial") {
+        mainText.textContent = "စိတ်ထည်းရှိတဲ့အတိုင်းနှိပ်နော်";
+      } else if (stage === "question") {
+        mainText.textContent = "မနေ့ကတစ်နေကုန်စကား မပြောဖြစ်တာကို လွမ်းနေတာမလား";
+      } else if (stage === "success") {
+        mainText.textContent = "အခုလို လွမ်းနေတယ်ဆိုတာသိနေတယ်လေ";
+      } else if (stage === "pleading" && redClickCount > 0) {
+        mainText.textContent = redClickTexts[redClickCount] || redClickTexts[10];
+      }
+
+      // Update buttons visibility
+      if (stage === "initial") {
+        initialButton.style.display = "block";
+        greenButton.style.display = "none";
+        redButton.style.display = "none";
+      } else if (stage === "question" || stage === "pleading") {
+        initialButton.style.display = "none";
+        greenButton.style.display = "block";
+        greenButton.style.transform = `scale(${getGreenButtonScale()})`;
+
+        if (redClickCount < 10) {
+          redButton.style.display = "block";
+          redButton.style.transform = `scale(${getRedButtonScale()})`;
+        } else {
+          redButton.style.display = "none";
+        }
+      } else if (stage === "success") {
+        initialButton.style.display = "none";
+        greenButton.style.display = "none";
+        redButton.style.display = "none";
+      }
+
+      // Final message after 10 clicks
+      if (redClickCount >= 10) {
+        finalMessage.style.display = "block";
+      } else {
+        finalMessage.style.display = "none";
+      }
+    }
+
+    // Initialize
+    updateUI();
+  </script>
+</body>
+</html>
